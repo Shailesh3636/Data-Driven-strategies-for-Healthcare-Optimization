@@ -25,8 +25,6 @@ def login_validation():
     password = request.form.get('password')
     cursor.execute("""SELECT * FROM `users` WHERE `email` LIKE '{}' AND `password` LIKE '{}'""".format(email,password)) 
     users = cursor.fetchall()
-    print(users)
-    print(len(users))
     if 'user_id' in session:
         print("yes")
     if len(users) > 0:
@@ -43,7 +41,6 @@ def add_user():
     cursor.execute("""INSERT INTO `users` (`user_id`,`name`,`email`,`password`) VALUES 
                    (NULL,'{}','{}','{}')""".format(name,email,password))
     conn.commit()
-    print(name)
     cursor.execute("""SELECT * FROM `users` WHERE `email` LIKE '{}'""".format(email))
     myuser = cursor.fetchall()
     session['user_id'] = myuser[0][0]

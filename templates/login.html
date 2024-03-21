@@ -1,21 +1,18 @@
 <!DOCTYPE html>
-<!-- Created by CodingLab |www.youtube.com/c/CodingLabYT-->
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8">
-    <!--<title> Login and Registration Form in HTML & CSS | CodingLab </title>-->
     <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
-    <!-- Fontawesome CDN Link -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
    </head>
 <body>
   <div class="container">
+    <h1 style="font-size: 15px;"> Welcome To healthPluse Please Login.</h1>
     <input type="checkbox" id="flip">
     <div class="cover">
       <div class="front">
         <img src="{{ url_for('static',filename='images/login.jpg') }}" alt="">
-        
       </div>
       <div class="back">
         <img class="backImg" src="#" alt="">
