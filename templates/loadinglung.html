@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container-lungs{
+            background-image: url(https://miro.medium.com/v2/resize:fit:828/format:webp/0*C_9XxrJEOfLpAQbk.gif);
+            background-repeat: no-repeat;
+            background-size: cover;
+            height:fit-content ;
+            height: 700px;
+            
+        }
+    </style>
+     <script>
+        setTimeout(function() {
+            window.location.href = "{{ url_for('lungs') }}";
+        }, 2000);
+        
+    </script>
+</head>
+<body>
+    <div class="container-lungs"></div>
+</body>
+</html>
