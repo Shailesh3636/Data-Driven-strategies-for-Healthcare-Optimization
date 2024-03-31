@@ -28,7 +28,7 @@ def login():
 @app.route('/home')
 def home():
     if 'user_id' in session:
-        return render_template('main.html')
+        return render_template('mainloading.html')
     else:
         return redirect('/')
     
@@ -47,6 +47,7 @@ def login_validation():
     users = cursor.fetchall()
     if len(users) > 0:
         session['user_id'] = users[0][0]
+        session['name'] = users[0][1]
         return redirect('/home')
     else:
         return redirect("/")
