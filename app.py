@@ -238,6 +238,85 @@ def lungs():
         return render_template('lung.html')
     else:
         return redirect('/')
-    
+
+@app.route("/predictlungs", methods=["POST"])
+def predictlungs():
+    if request.method == "POST":
+        name=request.form['fname']
+        gender = request.form['Gender']
+        if gender[0] == 'M':
+            genderin=1
+        else:
+            genderin = 0
+        age = int(request.form['ag'])
+        Smoking = request.form['Smoking']
+        if Smoking ==  'Yes':
+            Smokingin = 1
+        else:
+            Smokingin = 0
+        yellow = request.form['Yellow']
+        if yellow == 'Yes':
+            yellowness = 1
+        else:
+            yellowness = 0
+        anxiety = request.form['Anxiety']
+        if  anxiety == 'Yes':
+            anxietylevel = 1
+        else :  
+            anxietylevel = 0
+        peer = request.form['Peer']
+        if peer=='Yes':
+            peers= 1
+        else:
+            peers =0
+        Chronic = request.form['Chronic']
+        if  Chronic=="Yes":
+           Chro=1
+        else:
+            Chro=0
+        Fatigue = request.form['Fatigue']
+        if Fatigue  == 'Yes':
+            Fatiguein=1
+        else:
+            Fatiguein = 0 
+        Allergy = request.form['Allergy']
+        if  Allergy  == 'Yes':
+            Allergyin = 1
+        else:
+            Allergyin = 0
+        Wheezing = request.form['Wheezing']
+        if Wheezing == 'Yes':
+            Wheezingin = 1
+        else:
+            Wheezingin = 0
+        Alcohol = request.form['Alcohol']
+        if Alcohol ==  'Yes':
+            Alcoholin = 1
+        else:
+            Alcoholin = 0
+        Coughing = request.form['Coughing']
+        if  Coughing == "Yes":
+            Coughingin = 1
+        else:
+            Coughingin = 0
+        Shortness = request.form['Shortness']
+        if Shortness ==  "Yes" :
+            Shortnessin = 1
+        else:
+            Shortnessin =0
+        Swallowing = request.form['Swallowing']
+        if  Swallowing == "Yes":
+            Swallowingin = 1
+        else:
+            Swallowingin = 0
+        Chest = request.form['Chest']
+        if Chest ==  "Yes" :
+            Chestin = 1
+        else:
+            Chestin = 0
+    lunginput=[[genderin,age,Smokingin,yellowness,anxietylevel,peers,Chro,Fatiguein,Allergyin,Wheezingin,Alcoholin,Coughingin,Shortnessin,Swallowingin,Chestin]]
+    lungmodel = joblib.load("models/lung_cancer_predictor_model.pkl")
+    lungmodelresult = lungmodel.predict(lunginput)
+    return str(lungmodelresult[0])
 if __name__ == "__main__":
     app.run(debug=True)
