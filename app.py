@@ -232,6 +232,14 @@ def loadinglungs():
     else:
         return redirect('/')
 
+@app.route('/mainlungs')
+def mainlungs():
+    if 'user_id' in session:
+        return render_template('lungmain.html')
+    else:
+        return redirect('/')
+
+
 @app.route('/lungs')
 def lungs():
     if 'user_id' in session:
@@ -317,6 +325,10 @@ def predictlungs():
     lunginput=[[genderin,age,Smokingin,yellowness,anxietylevel,peers,Chro,Fatiguein,Allergyin,Wheezingin,Alcoholin,Coughingin,Shortnessin,Swallowingin,Chestin]]
     lungmodel = joblib.load("models/lung_cancer_predictor_model.pkl")
     lungmodelresult = lungmodel.predict(lunginput)
-    return str(lungmodelresult[0])
+    
+    if str(lungmodelresult[0]) == '1':
+        return render_template('lungsresult.html',name=name)
+    else:
+        return render_template('nolungsdis.html',name=name)
 if __name__ == "__main__":
     app.run(debug=True)
