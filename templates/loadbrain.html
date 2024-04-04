@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container-mainloading{
+            display: flex;
+            flex: row;
+            justify-content: center;
+            margin-top: 13%;
+        }
+    </style>
+     <script>
+        setTimeout(function() {
+            window.location.href = "{{ url_for('mainbrain') }}";
+        }, 2000);
+        
+    </script>
+</head>
+<body>
+    <div class="container-mainloading">
+        <img src="/static/Images/brainload.gif">>
+    </div>
+</body>
+</html>

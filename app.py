@@ -15,7 +15,7 @@ import joblib
 
 
 #<-------------------------- Login System ------------------------>
-conn = mysql.connector.connect(host="localhost",user="root",password="",database="healthpluse")
+conn = mysql.connector.connect(host="sql6.freemysqlhosting.net",user="sql6696569",password="hcSUt3jz3w",database="sql6696569 ")
 cursor = conn.cursor()
 
 app=Flask(__name__)
@@ -43,7 +43,7 @@ def index():
 def login_validation():
     email = request.form.get('email')
     password = request.form.get('password')
-    cursor.execute("""SELECT * FROM `users` WHERE `email` LIKE '{}' AND `password` LIKE '{}'""".format(email,password)) 
+    cursor.execute("""SELECT * FROM `user` WHERE `email` LIKE '{}' AND `password` LIKE '{}'""".format(email,password)) 
     users = cursor.fetchall()
     if len(users) > 0:
         session['user_id'] = users[0][0]
@@ -57,10 +57,10 @@ def add_user():
     name = request.form.get('name')
     email = request.form.get('email')
     password = request.form.get('password')
-    cursor.execute("""INSERT INTO `users` (`user_id`,`name`,`email`,`password`) VALUES 
+    cursor.execute("""INSERT INTO `user` (`user_id`,`name`,`email`,`password`) VALUES 
                    (NULL,'{}','{}','{}')""".format(name,email,password))
     conn.commit()
-    cursor.execute("""SELECT * FROM `users` WHERE `email` LIKE '{}'""".format(email))
+    cursor.execute("""SELECT * FROM `user` WHERE `email` LIKE '{}'""".format(email))
     myuser = cursor.fetchall()
     session['user_id'] = myuser[0][0]
     return redirect("/home")
@@ -330,5 +330,35 @@ def predictlungs():
         return render_template('lungsresult.html',name=name)
     else:
         return render_template('nolungsdis.html',name=name)
+
+#<------------------------   Kidney ----------------------->
+@app.route('/loadkidney')
+def loadkidney():
+    if 'user_id' in session:
+        return render_template('loadkidney.html')
+    else:
+        return redirect('/')
+
+@app.route('/mainkidney')
+def mainkidney():
+    if 'user_id' in session:
+        return render_template('kidneymain.html')
+    else:
+        return redirect('/')
+
+#<---------------- Brain Tumor ------------------------------>
+@app.route('/loadbrain')
+def loadbrain():
+    if 'user_id' in session:
+        return render_template('loadbrain.html')
+    else:
+        return redirect('/')
+    
+@app.route('/mainbrain')
+def mainbrain():
+    if 'user_id' in session:
+        return render_template('brainmain.html')
+    else:
+        return redirect('/')
 if __name__ == "__main__":
     app.run(debug=True)
