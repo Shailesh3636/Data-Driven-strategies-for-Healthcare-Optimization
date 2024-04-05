@@ -41,7 +41,7 @@
       </style>
     <header>
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-            <a class="navbar-brand" href="#"><b>Welcome to HealthPluse {{session.name}} </b></a>
+            <a class="navbar-brand" href="#"><b>Welcome to HealthPulse {{session.name}} </b></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -83,7 +83,21 @@
                     <div class="card-body">
                         <h5 class="card-title">Predict Lungs Cancer Using Scans</h5>
                         <p class="card-text">Upload your Lungs CT-SCAN here and predict your lung cancer</p>
-                        <a href="/lungs" class="btn btn-primary">Click Here</a>
+                        <form action="/scanresultlungs" method="post" enctype="multipart/form-data"
+                        style="margin-top: 30px; width: 80%; text-align: center; margin: auto;">
+                        <div class="file has-name is-centered">
+                          <label class="file-label">
+                            <input class="file-input" type="file" id="image" name="image">
+                            <span class="file-cta">
+                              <span class="file-label">
+                                Upload an image
+                              </span>
+                            </span>
+                          </label>
+                        </div>
+                        <br>
+                        <input type="submit"  class="button is-black" name="image" id="classify_button">
+                      </form>
                     </div>
                 </div>
             </div>

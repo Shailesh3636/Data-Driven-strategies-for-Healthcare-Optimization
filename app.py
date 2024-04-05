@@ -143,6 +143,33 @@ def predict():
 
 #<-------------------------- Heart Prediction ------------------------->
 
+# Preprocess an image
+def preprocess_image(image):
+    image = tf.image.decode_jpeg(image, channels=3)
+    image = tf.image.resize(image, [IMAGE_SIZE, IMAGE_SIZE])
+    image /= 255.0  # normalize to [0,1] range
+
+    return image
+
+# Read the image from path and preprocess
+def load_and_preprocess_image(path):
+    image = tf.io.read_file(path)
+
+    return preprocess_image(image)
+
+# Predict & classify image
+def classify(model, image_path):
+    preprocessed_imgage = load_and_preprocess_image(image_path)
+    preprocessed_imgage = tf.reshape(
+        preprocessed_imgage, (1, IMAGE_SIZE, IMAGE_SIZE, 3)
+    )
+    prob = cnn_model.predict(preprocessed_imgage)
+    # Vector of probabilities
+    pred_labels = np.argmax(prob, axis=1)
+    label = class_names[pred_labels[0]]
+    classified_prob = prob[0][0] if prob[0][0] >= 0.5 else 1 - prob[0][0]
+    return label, classified_prob
+
 model = joblib.load("models/Heart cardiovascular prediction model.pkl")
 
 @app.route('/loadheart')
@@ -232,6 +259,51 @@ def predictheart():
 
 #<------------------ Lungs cancer  ------------------>
 
+lungs_class_names = ["Bacterial Pneumonia", "Corona Virus Disease","Normal", "Tuberculosis", "Viral Pneumonia"]
+lungs_class_names_label = {class_name: i for i, class_name in enumerate(lungs_class_names)}
+UPLOAD_FOLDER = "uploads"
+STATIC_FOLDER = "static"
+lungs_json_file = open("lung_scan.json", "r")
+loaded_lungs_model_json = lungs_json_file.read()
+lungs_json_file.close()
+lungs_cnn_model = model_from_json(loaded_lungs_model_json)
+lungs_cnn_model.load_weights("models/model_lung_scan.h5")
+
+IMAGE_SIZE = 150
+
+# Preprocess an image
+def lungs_preprocess_image(image):
+    image = tf.image.decode_jpeg(image, channels=3)
+    image = tf.image.resize(image, [IMAGE_SIZE, IMAGE_SIZE])
+    image /= 255.0  # normalize to [0,1] range
+
+    return image
+
+
+# Read the image from path and preprocess
+def lungs_load_and_preprocess_image(path):
+    image = tf.io.read_file(path)
+
+    return lungs_preprocess_image(image)
+
+
+# Predict & classify image
+def lungs_classify(model, image_path):
+
+    preprocessed_imgage = lungs_load_and_preprocess_image(image_path)
+    preprocessed_imgage = tf.reshape(
+        preprocessed_imgage, (1, IMAGE_SIZE, IMAGE_SIZE, 3)
+    )
+
+    prob = lungs_cnn_model.predict(preprocessed_imgage)
+    # Vector of probabilities
+    pred_label_lung = np.argmax(prob, axis=1)
+    label_lung = lungs_class_names[pred_label_lung[0]]
+    classified_prob = prob[0][0] if prob[0][0] >= 0.5 else 1 - prob[0][0]
+
+    return label_lung, classified_prob
+
+
 @app.route('/loadlungs')
 def loadinglungs():
     if 'user_id' in session:
@@ -253,6 +325,27 @@ def lungs():
         return render_template('lung.html')
     else:
         return redirect('/')
+    
+@app.route("/scanresultlungs", methods=["POST", "GET"])
+def upload_file1():
+    if 'user_id' in session:
+        if request.method == "GET":
+            return render_template('lung.html')
+        else:
+            file = request.files["image"]
+            upload_image_path = os.path.join(UPLOAD_FOLDER, file.filename)
+            print(upload_image_path)
+            file.save(upload_image_path)
+            label_lung, prob = lungs_classify(lungs_cnn_model, upload_image_path)
+            prob = round((prob * 100), 2)
+        return render_template("resultscanlungs.html", image_file_name=file.filename, label=label_lung, result=prob)
+    else:
+        return redirect('/')
+
+@app.route("/scanresultlungs/<filename>")
+def send_file1(filename):
+    return send_from_directory(UPLOAD_FOLDER, filename)
+
 
 @app.route("/predictlungs", methods=["POST"])
 def predictlungs():
@@ -338,7 +431,52 @@ def predictlungs():
     else:
         return render_template('nolungsdis.html',name=name)
 
+
 #<------------------------   Kidney ----------------------->
+
+kidney_class_names = ["Cyst","Normal", "Stone", "Tumor"]
+kidney_class_names_labels = {class_name: i for i, class_name in enumerate(kidney_class_names)}
+UPLOAD_FOLDER = "uploads"
+STATIC_FOLDER = "static"
+kidney_json_file = open("kidney_scan.json", "r")
+loaded_kidney_model_json = kidney_json_file.read()
+kidney_json_file.close()
+kidney_cnn_model = model_from_json(loaded_kidney_model_json)
+kidney_cnn_model.load_weights("models/model_kidney_scan.h5")
+
+IMAGE_SIZE = 150
+
+# Preprocess an image
+def kidney_preprocess_image(image):
+    image = tf.image.decode_jpeg(image, channels=3)
+    image = tf.image.resize(image, [IMAGE_SIZE, IMAGE_SIZE])
+    image /= 255.0  # normalize to [0,1] range
+
+    return image
+
+
+# Read the image from path and preprocess
+def kidney_load_and_preprocess_image(path):
+    image = tf.io.read_file(path)
+    return kidney_preprocess_image(image)
+
+
+# Predict & classify image
+def kidney_classify(model, image_path):
+
+    preprocessed_imgage = kidney_load_and_preprocess_image(image_path)
+    preprocessed_imgage = tf.reshape(
+        preprocessed_imgage, (1, IMAGE_SIZE, IMAGE_SIZE, 3)
+    )
+
+    prob = kidney_cnn_model.predict(preprocessed_imgage)
+    # Vector of probabilities
+    pred_label_kidney = np.argmax(prob, axis=1)
+    label_kidney = kidney_class_names[pred_label_kidney[0]]
+    classified_prob = prob[0][0] if prob[0][0] >= 0.5 else 1 - prob[0][0]
+
+    return label_kidney, classified_prob
+
 @app.route('/loadkidney')
 def loadkidney():
     if 'user_id' in session:
@@ -353,6 +491,25 @@ def mainkidney():
     else:
         return redirect('/')
 
+@app.route("/scanresultkidney", methods=["POST", "GET"])
+def upload_file2():
+    if 'user_id' in session:
+        if request.method == "GET":
+            return render_template('lung.html')
+        else:
+            file = request.files["image"]
+            upload_image_path = os.path.join(UPLOAD_FOLDER, file.filename)
+            print(upload_image_path)
+            file.save(upload_image_path)
+            label_kidney, prob = kidney_classify(kidney_cnn_model, upload_image_path)
+            prob = round((prob * 100), 2)
+        return render_template("resultscankidney.html", image_file_name=file.filename, label=label_kidney, result=prob)
+    else:
+        return redirect('/')
+
+@app.route("/scanresultkidney/<filename>")
+def send_file2(filename):
+    return send_from_directory(UPLOAD_FOLDER, filename)
 #<---------------- Brain Tumor ------------------------------>
 
 class_names = ["pituitary_tumor", "no_tumor", "meningioma_tumor", "glioma_tumor"]
@@ -368,37 +525,6 @@ cnn_model = model_from_json(loaded_model_json)
 cnn_model.load_weights("models/model_tumor.h5")
 
 IMAGE_SIZE = 150
-
-
-# Preprocess an image
-def preprocess_image(image):
-    image = tf.image.decode_jpeg(image, channels=3)
-    image = tf.image.resize(image, [IMAGE_SIZE, IMAGE_SIZE])
-    image /= 255.0  # normalize to [0,1] range
-
-    return image
-
-# Read the image from path and preprocess
-def load_and_preprocess_image(path):
-    image = tf.io.read_file(path)
-
-    return preprocess_image(image)
-
-# Predict & classify image
-def classify(model, image_path):
-
-    preprocessed_imgage = load_and_preprocess_image(image_path)
-    preprocessed_imgage = tf.reshape(
-        preprocessed_imgage, (1, IMAGE_SIZE, IMAGE_SIZE, 3)
-    )
-
-    prob = cnn_model.predict(preprocessed_imgage)
-    # Vector of probabilities
-    pred_labels = np.argmax(prob, axis=1)
-    label = class_names[pred_labels[0]]
-    classified_prob = prob[0][0] if prob[0][0] >= 0.5 else 1 - prob[0][0]
-
-    return label, classified_prob
 
 @app.route('/loadbrain')
 def loadbrain():
@@ -419,7 +545,6 @@ def upload_file():
     if 'user_id' in session:
         if request.method == "GET":
             return render_template("brainmain.html")
-
         else:
             file = request.files["image"]
             upload_image_path = os.path.join(UPLOAD_FOLDER, file.filename)
