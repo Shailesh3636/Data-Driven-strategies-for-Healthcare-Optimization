@@ -79,13 +79,21 @@ def logout():
 
 #<-------------------- Ai Recommendation -------------------->
 
-precautions = pd.read_csv("D:\Projects\HealthPulse  Data Driven strategies for Healthcare Optimization\AI recommendation medicine dataset\precautions_df.csv")
-workout = pd.read_csv("D:\Projects\HealthPulse  Data Driven strategies for Healthcare Optimization\AI recommendation medicine dataset\workout_df.csv")
-desrciption = pd.read_csv("D:\Projects\HealthPulse  Data Driven strategies for Healthcare Optimization\AI recommendation medicine dataset\description.csv")
-medications = pd.read_csv("D:\Projects\HealthPulse  Data Driven strategies for Healthcare Optimization\AI recommendation medicine dataset\medications.csv")
-diets = pd.read_csv("D:\Projects\HealthPulse  Data Driven strategies for Healthcare Optimization\AI recommendation medicine dataset\diets.csv")
+script_directory = os.path.dirname(os.path.abspath(__file__))
+folder_name = "AI recommendation medicine dataset"
+precautions_path = os.path.join(script_directory, folder_name, "precautions_df.csv")
+workout_path = os.path.join(script_directory, folder_name, "workout_df.csv")
+description_path = os.path.join(script_directory, folder_name, "description.csv")
+medications_path = os.path.join(script_directory, folder_name, "medications.csv")
+diets_path = os.path.join(script_directory, folder_name, "diets.csv")
 
-svc = pickle.load(open("D:\Projects\HealthPulse  Data Driven strategies for Healthcare Optimization\models\svc.pkl",'rb'))
+precautions = pd.read_csv(precautions_path)
+workout = pd.read_csv(workout_path)
+desrciption = pd.read_csv(description_path)
+medications = pd.read_csv(medications_path)
+diets = pd.read_csv(diets_path)
+
+svc = pickle.load(open("models\svc.pkl",'rb'))
 
 def recommendation_function(dis):
     desc = desrciption[desrciption['Disease'] == dis]['Description']
