@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lungs</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"> 
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>           
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+    <style>
+        .bd-placeholder-img {
+          font-size: 1.125rem;
+          text-anchor: middle;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+        }
+  
+        @media (min-width: 768px) {
+          .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+          }
+        }
+        .image{
+            height: 90%;
+        }
+        .heading{
+            font-weight: bold;
+            color: black;
+        }
+        .para{
+            color: black;
+        }
+        .dis{
+            margin-left: 20px;
+            margin-top: 20px;
+        }
+        .cardis{
+            margin-left: 40px;
+            padding: 20px;
+        }
+        .start-card{
+            margin-left: 70px;
+        }
+        .head{
+            margin-top: 30px;
+        }
+      </style>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <a class="navbar-brand" href="#"><b>Welcome to HealthPluse {{session.name}} </b></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/home">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/about">Brain Tumor</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/help">Chronic Kidney Disease</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/loadheart">Heart </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/loadlungs">Lungs </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/ai">Health Ai Recommendation </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout </a>
+                </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Disease Predictor</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://kit.fontawesome.com/5f3f547070.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"> 
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>           
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<style>
+    html {
+        height: 100%;
+        margin: 0;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Website Title */
+    .container {
+        padding: 30px;
+        position: relative;
+        background: linear-gradient(45deg, #161616, #383436, #161616);
+        background-size: 500% 500%;
+        animation: change-gradient 10s ease-in-out infinite;
+    }
+
+    @keyframes change-gradient {
+        0% {
+            background-position: 0 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0 50%;
+        }
+    }
+
+    .container-heading {
+        margin: 0;
+    }
+
+    .heading_font {
+        color: #ffffff;
+        font-family: 'Pacifico', cursive;
+        font-size: 35px;
+        font-weight: normal;
+    }
+
+    .description p {
+        color: #ffffff;
+        font-style: italic;
+        font-size: 14px;
+        margin: -5px 0 0;
+    }
+
+    /* Text Area */
+    .ml-container {
+        margin: 30px 0;
+        flex: 1 0 auto;
+
+    }
+
+    .form {
+        text-align: center;
+        width: 250px;
+        height: 25px;
+        margin-bottom: 5px;
+
+    }
+
+    input[type=text],
+    select {
+        width: 60%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    label {
+        display: inline block;
+        width: 200px;
+        font-weight: bold;
+        text-align: center;
+        float: left;
+
+    }
+
+    /* Predict Button */
+    .my-cta-button {
+        background: #f9f9f9;
+        border: 2px solid #000000;
+        border-radius: 1000px;
+        box-shadow: 3px 3px #8c8c8c;
+        margin-top: 10px;
+        padding: 10px 36px;
+        color: #000000;
+        display: inline-block;
+        font: italic bold 20px/1 "Calibri", sans-serif;
+        text-align: center;
+    }
+
+    .my-cta-button:hover {
+        color: #141414;
+        border: 2px solid #46424b;
+    }
+
+    .my-cta-button:active {
+        box-shadow: 0 0;
+    }
+
+    /* Contact */
+    .contact-icon {
+        color: #ffffff;
+        padding: 7px;
+    }
+
+    .contact-icon:hover {
+        color: #8c8c8c;
+    }
+
+    /* Footer */
+    .footer {
+        flex-shrink: 0;
+        position: relative;
+        padding: 20px;
+        background: linear-gradient(45deg, #161616, #383436, #161616);
+        background-size: 500% 500%;
+        animation: change-gradient 10s ease-in-out infinite;
+    }
+
+    .footer-description {
+        color: #ffffff;
+        margin: 0;
+        font-size: 12px;
+    }
+
+    /* Result */
+    .results {
+        padding: 30px 0 0;
+        flex: 1 0 auto;
+    }
+
+    .danger {
+        color: #ff0000;
+    }
+
+    .safe {
+        color: green;
+    }
+    .bd-placeholder-img {
+          font-size: 1.125rem;
+          text-anchor: middle;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+        }
+  
+        @media (min-width: 768px) {
+          .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+          }
+        }
+        .image{
+            height: 90%;
+        }
+        .heading{
+            font-weight: bold;
+            color: black;
+        }
+        .para{
+            color: black;
+        }
+</style>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+            <a class="navbar-brand" href="#"><b>Welcome to HealthPulse {{session.name}} </b></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/home">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/loadbrain">Brain Tumor</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/loadkidney">Kidney Disease</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/loadheart">Heart </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/loadlungs">Lungs </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/ai">Health Ai Recommendation </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout </a>
+                </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div class="container mt-5">
+        <h2 class='container-heading'><span class="heading_font">HealthPulse Chronic Kidney Disease Predictor</span></h2>
+    </div>
+
+    <div class="ml-container">
+        <form action="/predictchronickidney" method="POST">
+
+
+            <label for="name">Name</label>
+            <input type="text" id="age" name="name" placeholder="Your name.."><br>
+
+
+            <label for="age">Age</label>
+            <input type="text" id="age" name="age" placeholder="Your age.."><br>
+
+            <label for="Blood Pressure">Blood Pressure</label>
+            <input type="text" id="age" name="Blood" placeholder="Your Blood Pressure [80 - 120]"><br>
+
+            <label for="Specific Gravity">Specific Gravity</label>
+            <input type="text" id="age" name="Specific" placeholder="Your Specific Gravity [0 - 1]"><br>
+
+            <label for="albumin">Albumin</label>
+            <input type="text" id="age" name="albumin" placeholder="Your albumin [0 - 5]"><br>
+
+            <label for="Sugar">Sugar</label>
+            <input type="text" id="age" name="Sugar" placeholder="Your Sugar Levels [0 - 5]"><br>
+
+            <label for="red blood cells">Red Blood Cells</label>
+            <select id="red blood cells" name="red">
+                <option selected>----select option----</option>
+                <option value="normal">normal</option>
+                <option value="abnormal">abnormal</option>
+            </select><br>
+
+            <label for="pus">Pus Cells</label>
+            <select id="pus" name="pus">
+                <option selected>----select option----</option>
+                <option value="normal">normal</option>
+                <option value="abnormal">abnormal</option>
+            </select><br>
+
+            <label for="Clumps">Pus Cell Clumps</label>
+            <select id="Clumps" name="Clumps">
+                <option selected>----select option----</option>
+                <option value="present">present</option>
+                <option value="notpresent">notpresent</option>
+            </select><br>
+
+            <label for="Bacteria">Bacteria</label>
+            <select id="Bacteria" name="Bacteria">
+                <option selected>----select option----</option>
+                <option value="present">present</option>
+                <option value="notpresent">notpresent</option>
+            </select><br>
+
+            <label for="Blood glucose random">Blood glucose random</label>
+            <input type="text" id="age" name="glucose" placeholder="Your Blood glucose random [0 - 500] mgs/dl"><br>
+
+            <label for="Blood Urea">Blood Urea</label>
+            <input type="text" id="age" name="Urea" placeholder="Your Blood Urea [0 - 500] mgs/dl"><br>
+
+            <label for="Serum Creatinine">Serum Creatinine</label>
+            <input type="text" id="age" name="Serum" placeholder="Your Serum Creatinine For adult men, 0.74 to 1.35 For adult women, 0.59 to 1.04  mgs/dl"><br>
+
+            <label for="Sodium">Sodium</label>
+            <input type="text" id="age" name="sodium" placeholder="Sodium mEq/L"><br>
+
+            <label for="Potassium">Potassium</label>
+            <input type="text" id="age" name="potassium" placeholder="Potassium mEq/L"><br>
+
+            <label for="Hemoglobin">Hemoglobin</label>
+            <input type="text" id="age" name="hemoglobin" placeholder="Hemoglobin gms"><br>
+            
+            <label for="Packed Cell Volume">Packed Cell Volume</label>
+            <input type="text" id="age" name="packed" placeholder="Packed Cell Volume percentage "><br>
+
+            <label for="White Blood Cell Count">White Blood Cell Count</label>
+            <input type="text" id="age" name="White" placeholder="White Blood Cell Count cells/cmm"><br>
+
+            <label for="Red Blood Cell Count">Red Blood Cell Count</label>
+            <input type="text" id="age" name="Red_blood" placeholder="Red Blood Cell Count millions/cmm"><br>
+
+            <label for="hypertension">hypertension</label>
+            <select id="hypertension" name="hypertension">
+                <option selected>----select option----</option>
+                <option value="yes">yes</option>
+                <option value="no">no</option>
+            </select><br>
+
+            <label for="diabetes mellitus">diabetes mellitus</label>
+            <select id="diabetes mellitus" name="diabetes">
+                <option selected>----select option----</option>
+                <option value="yes">yes</option>
+                <option value="no">no</option>
+            </select><br>
+
+            <label for="coronary artery disease">coronary artery disease</label>
+            <select id="coronary artery disease" name="coronary">
+                <option selected>----select option----</option>
+                <option value="yes">yes</option>
+                <option value="no">no</option>
+            </select><br>
+    
+            <label for="appetite">appetite</label>
+            <select id="appetite" name="appetite">
+                <option selected>----select option----</option>
+                <option value="good">good</option>
+                <option value="poor">poor</option>
+            </select><br>
+
+            <label for="pedal edema">pedal edema</label>
+            <select id="pedal edema" name="pedal">
+                <option selected>----select option----</option>
+                <option value="yes">yes</option>
+                <option value="no">no</option>
+            </select><br>
+
+            <label for="anemia">anemia</label>
+            <select id="anemia" name="anemia">
+                <option selected>----select option----</option>
+                <option value="yes">yes</option>
+                <option value="no">no</option>
+            </select><br>
+
+            <input type="submit" class="my-cta-button" value="Predict">
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+
+</html>
+</body>
+</html>

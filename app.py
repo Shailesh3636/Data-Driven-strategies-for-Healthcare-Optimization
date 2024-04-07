@@ -6,7 +6,7 @@ import pickle
 import numpy as np
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
-from sklearn.preprocessing import OrdinalEncoder, MinMaxScaler, StandardScaler
+from sklearn.preprocessing import OrdinalEncoder,StandardScaler
 from sklearn.preprocessing import OneHotEncoder, LabelEncoder
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
@@ -22,6 +22,7 @@ from keras.models import model_from_json
 import tensorflow as tf
 
 #<-------------------------- Login System ------------------------>
+
 conn = mysql.connector.connect(host="sql6.freemysqlhosting.net",user="sql6696569",password="hcSUt3jz3w",database="sql6696569 ")
 cursor = conn.cursor()
 
@@ -357,87 +358,91 @@ def send_file1(filename):
 
 @app.route("/predictlungs", methods=["POST"])
 def predictlungs():
-    if request.method == "POST":
-        name=request.form['fname']
-        gender = request.form['Gender']
-        if gender[0] == 'M':
-            genderin=1
-        else:
-            genderin = 0
-        age = int(request.form['ag'])
-        Smoking = request.form['Smoking']
-        if Smoking ==  'Yes':
-            Smokingin = 1
-        else:
-            Smokingin = 0
-        yellow = request.form['Yellow']
-        if yellow == 'Yes':
-            yellowness = 1
-        else:
-            yellowness = 0
-        anxiety = request.form['Anxiety']
-        if  anxiety == 'Yes':
-            anxietylevel = 1
-        else :  
-            anxietylevel = 0
-        peer = request.form['Peer']
-        if peer=='Yes':
-            peers= 1
-        else:
-            peers =0
-        Chronic = request.form['Chronic']
-        if  Chronic=="Yes":
-           Chro=1
-        else:
-            Chro=0
-        Fatigue = request.form['Fatigue']
-        if Fatigue  == 'Yes':
-            Fatiguein=1
-        else:
-            Fatiguein = 0 
-        Allergy = request.form['Allergy']
-        if  Allergy  == 'Yes':
-            Allergyin = 1
-        else:
-            Allergyin = 0
-        Wheezing = request.form['Wheezing']
-        if Wheezing == 'Yes':
-            Wheezingin = 1
-        else:
-            Wheezingin = 0
-        Alcohol = request.form['Alcohol']
-        if Alcohol ==  'Yes':
-            Alcoholin = 1
-        else:
-            Alcoholin = 0
-        Coughing = request.form['Coughing']
-        if  Coughing == "Yes":
-            Coughingin = 1
-        else:
-            Coughingin = 0
-        Shortness = request.form['Shortness']
-        if Shortness ==  "Yes" :
-            Shortnessin = 1
-        else:
-            Shortnessin =0
-        Swallowing = request.form['Swallowing']
-        if  Swallowing == "Yes":
-            Swallowingin = 1
-        else:
-            Swallowingin = 0
-        Chest = request.form['Chest']
-        if Chest ==  "Yes" :
-            Chestin = 1
-        else:
-            Chestin = 0
-    lunginput=[[genderin,age,Smokingin,yellowness,anxietylevel,peers,Chro,Fatiguein,Allergyin,Wheezingin,Alcoholin,Coughingin,Shortnessin,Swallowingin,Chestin]]
-    lungmodel = joblib.load("models/lung_cancer_predictor_model.pkl")
-    lungmodelresult = lungmodel.predict(lunginput)
+    if 'user_id' in session:
+        if request.method == "POST":
+            name=request.form['fname']
+            gender = request.form['Gender']
+            if gender[0] == 'M':
+                genderin=1
+            else:
+                genderin = 0
+            age = int(request.form['ag'])
+            Smoking = request.form['Smoking']
+            if Smoking ==  'Yes':
+                Smokingin = 1
+            else:
+                Smokingin = 0
+            yellow = request.form['Yellow']
+            if yellow == 'Yes':
+                yellowness = 1
+            else:
+                yellowness = 0
+            anxiety = request.form['Anxiety']
+            if  anxiety == 'Yes':
+                anxietylevel = 1
+            else :  
+                anxietylevel = 0
+            peer = request.form['Peer']
+            if peer=='Yes':
+                peers= 1
+            else:
+                peers =0
+            Chronic = request.form['Chronic']
+            if  Chronic=="Yes":
+                Chro=1
+            else:
+                Chro=0
+            Fatigue = request.form['Fatigue']
+            if Fatigue  == 'Yes':
+                Fatiguein=1
+            else:
+                Fatiguein = 0 
+            Allergy = request.form['Allergy']
+            if  Allergy  == 'Yes':
+                Allergyin = 1
+            else:
+                Allergyin = 0
+            Wheezing = request.form['Wheezing']
+            if Wheezing == 'Yes':
+                Wheezingin = 1
+            else:
+                Wheezingin = 0
+            Alcohol = request.form['Alcohol']
+            if Alcohol ==  'Yes':
+                Alcoholin = 1
+            else:
+                Alcoholin = 0
+            Coughing = request.form['Coughing']
+            if  Coughing == "Yes":
+                Coughingin = 1
+            else:
+                Coughingin = 0
+            Shortness = request.form['Shortness']
+            if Shortness ==  "Yes" :
+                Shortnessin = 1
+            else:
+                Shortnessin =0
+            Swallowing = request.form['Swallowing']
+            if  Swallowing == "Yes":
+                Swallowingin = 1
+            else:
+                Swallowingin = 0
+            Chest = request.form['Chest']
+            if Chest ==  "Yes" :
+                Chestin = 1
+            else:
+                Chestin = 0
+        lunginput=[[genderin,age,Smokingin,yellowness,anxietylevel,peers,Chro,Fatiguein,Allergyin,Wheezingin,Alcoholin,Coughingin,Shortnessin,Swallowingin,Chestin]]
+        lungmodel = joblib.load("models/lung_cancer_predictor_model.pkl")
+        lungmodelresult = lungmodel.predict(lunginput)
     
-    if str(lungmodelresult[0]) == '1':
-        return render_template('lungsresult.html',name=name)
+    
+        if str(lungmodelresult[0]) == '1':
+            return render_template('lungsresult.html',name=name)
+        else:
+            return render_template('nolungsdis.html',name=name)
     else:
-        return render_template('nolungsdis.html',name=name)
+        return redirect('/')
 
 
 #<------------------------   Kidney ----------------------->
@@ -518,6 +523,92 @@ def upload_file2():
 @app.route("/scanresultkidney/<filename>")
 def send_file2(filename):
     return send_from_directory(UPLOAD_FOLDER, filename)
+
+@app.route("/chronickidney")
+def ckd():
+    if 'user_id' in session:
+        return render_template("kidneyuser.html")
+    else:
+        return redirect('/')
+
+@app.route("/predictchronickidney", methods=["POST"])
+def chronickideney():
+    if 'user_id' in session:
+        if request.method == "POST":
+            kidname = request.form['name']
+            age = request.form['age']
+            Blood = request.form['Blood']
+            sg = request.form['Specific']
+            albumin = request.form['albumin']
+            Sugar = request.form['Sugar']
+            Red = request.form['red']
+            if Red == 'normal':
+                Red = 0
+            else:
+                Red = 1
+            pus = request.form['pus']
+            if pus == 'normal':
+                pus = 0
+            else:
+                pus = 1
+            Clumps = request.form['Clumps']
+            if Clumps == 'normal':
+                Clumps = 0
+            else:
+                Clumps = 1
+            Bacteria = request.form['Bacteria']
+            if Bacteria == 'present':
+                Bacteria = 1
+            else:
+                Bacteria = 0
+            glucose = request.form['glucose']
+            Urea = request.form['Urea']
+            Serum = request.form['Serum']
+            sodium = request.form['sodium']
+            potassium = request.form['potassium']
+            hemoglobin = request.form['hemoglobin']
+            packed = request.form['packed']
+            White = request.form['White']
+            Red_blood = request.form['Red_blood']
+            hypertension = request.form['hypertension']
+            if hypertension == 'yes':
+                hypertension = 1
+            else:
+                hypertension = 0
+            diabetes = request.form['diabetes']
+            if diabetes == 'yes':
+                diabetes = 1
+            else:
+                diabetes = 0
+            coronary = request.form['coronary']
+            if coronary == 'yes':
+                coronary = 1
+            else:
+                coronary = 0
+            appetite=request.form['appetite']
+            if appetite=='good':
+                appetite = 0
+            else:
+                appetite = 1
+            pedal = request.form['pedal']
+            if pedal == 'yes':
+                pedal = 1
+            else:
+                pedal = 0
+            anemia = request.form['anemia']
+            if anemia == 'yes':
+                anemia = 1
+            else:
+                anemia = 0
+            kidney_input=[[age,Blood,sg,albumin,Sugar,Red,pus,Clumps,Bacteria,glucose,Urea,Serum,sodium,potassium,hemoglobin,packed,White,Red_blood,hypertension,diabetes,coronary,appetite,pedal,anemia]]
+            kidneymodel = joblib.load("models/kidney.pkl")
+            kidneymodelresult = kidneymodel.predict(kidney_input)
+            if str(kidneymodelresult[0]) == 'ckd':
+                return render_template('kidneyresult.html',name=kidname)
+        else:
+                return render_template('nokidneydis.html',name=kidname)
+    else:
+        return redirect('/')
 #<---------------- Brain Tumor ------------------------------>
 
 class_names = ["pituitary_tumor", "no_tumor", "meningioma_tumor", "glioma_tumor"]
