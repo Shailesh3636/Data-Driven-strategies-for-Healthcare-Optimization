@@ -53,6 +53,7 @@ def login_validation():
     password = request.form.get('password')
     cursor.execute("""SELECT * FROM `user` WHERE `email` LIKE '{}' AND `password` LIKE '{}'""".format(email,password)) 
     users = cursor.fetchall()
+    print(users)
     if len(users) > 0:
         session['user_id'] = users[0][0]
         session['name'] = users[0][1]
