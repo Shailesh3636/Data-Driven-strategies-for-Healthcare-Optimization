@@ -23,7 +23,7 @@ import tensorflow as tf
 
 #<-------------------------- Login System ------------------------>
 
-conn = mysql.connector.connect(host="sql6.freemysqlhosting.net",user="sql6696569",password="hcSUt3jz3w",database="sql6696569 ")
+conn = mysql.connector.connect(host="sql5.freesqldatabase.com",user="sql5698442",password="rpFH8A7T8D",database="sql5698442 ")
 cursor = conn.cursor()
 
 app=Flask(__name__)
